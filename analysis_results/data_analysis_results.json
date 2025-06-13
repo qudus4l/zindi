@@ -1,0 +1,139 @@
+{
+  "basic_stats": {
+    "total_samples": 400,
+    "avg_response_length_words": 109.01,
+    "avg_vignette_length_words": 99.355,
+    "min_response_length": 29,
+    "max_response_length": 320,
+    "response_length_distribution": {
+      "<10": 0,
+      "10-20": 0,
+      "20-30": 4,
+      "30-50": 15,
+      "50-100": 169,
+      ">100": 212
+    }
+  },
+  "top_medical_terms": [
+    [
+      "patient",
+      855
+    ],
+    [
+      "pain",
+      369
+    ],
+    [
+      "diagnosis",
+      331
+    ],
+    [
+      "child",
+      181
+    ],
+    [
+      "administer",
+      172
+    ],
+    [
+      "check",
+      163
+    ],
+    [
+      "treatment",
+      128
+    ],
+    [
+      "monitor",
+      122
+    ],
+    [
+      "refer",
+      121
+    ],
+    [
+      "fever",
+      113
+    ],
+    [
+      "assess",
+      105
+    ],
+    [
+      "medication",
+      77
+    ],
+    [
+      "emergency",
+      76
+    ],
+    [
+      "malaria",
+      76
+    ],
+    [
+      "cough",
+      59
+    ],
+    [
+      "hiv",
+      58
+    ],
+    [
+      "pregnancy",
+      47
+    ],
+    [
+      "hypertension",
+      42
+    ],
+    [
+      "treat",
+      37
+    ],
+    [
+      "pneumonia",
+      36
+    ]
+  ],
+  "clinical_domains": {
+    "maternal_health": 108,
+    "pediatrics": 145,
+    "infectious_diseases": 178,
+    "chronic_diseases": 71,
+    "emergency_care": 187
+  },
+  "nurse_experience": {
+    "0-5 years": 37,
+    "6-10 years": 44,
+    "11-15 years": 77,
+    "16-20 years": 73,
+    ">20 years": 69,
+    "Unknown": 100
+  },
+  "health_levels": {
+    "sub county hospitals and nursing homes": 131,
+    "national referral hospitals": 125,
+    "health centres": 74,
+    "dispensaries and private clinics": 54,
+    "county hospitals": 9,
+    "community health centers": 6,
+    "health centers": 1
+  },
+  "counties": {
+    "uasin gishu": 247,
+    "kakamega": 83,
+    "kiambu": 60,
+    "elgeiyo marakwet": 6,
+    "bungoma": 4
+  },
+  "quality_issues": {
+    "empty_prompts": 0,
+    "empty_responses": 0,
+    "very_short_responses": 0,
+    "very_long_responses": 0,
+    "missing_ids": 0,
+    "missing_experience": 100
+  },
+  "test_samples": 100
+}

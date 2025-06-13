@@ -1,0 +1,32 @@
+MODEL ARCHITECTURE EVALUATION REPORT
+======================================================================
+
+1. MODEL RANKINGS
+------------------------------
+1. clinical-t5-small: 98.5/100
+2. biobert-base: 85.2/100
+3. custom-lightweight: 83.8/100
+4. t5-small: 83.5/100
+5. gpt2-small: 77.9/100
+6. distilbert-base: 71.3/100
+
+2. TOP MODEL ANALYSIS
+------------------------------
+Model: clinical-t5-small
+Parameters: 60,000,000
+Architecture: encoder-decoder
+Medical Pre-training: True
+Estimated Inference Time: 8100.0ms
+Estimated Memory: 90.0MB
+
+3. RECOMMENDATIONS
+------------------------------
+Primary: clinical-t5-small
+Alternatives: biobert-base, custom-lightweight
+
+Implementation Strategy:
+  - Source or create medical T5 variant
+  - Fine-tune on Kenyan clinical data
+  - Implement structured output formatting
+  - Add clinical reasoning chains
+  - Optimize for edge deployment

@@ -1,0 +1,308 @@
+{
+  "evaluation_results": {
+    "t5-small": {
+      "specifications": {
+        "params": 60000000,
+        "architecture": "encoder-decoder",
+        "medical_pretrained": false,
+        "quantization_friendly": true,
+        "context_length": 512,
+        "pros": [
+          "Excellent for text generation tasks",
+          "Good balance of size and performance",
+          "Well-suited for summarization and Q&A",
+          "Strong community support"
+        ],
+        "cons": [
+          "Not specifically trained on medical data",
+          "May need extensive fine-tuning"
+        ]
+      },
+      "scores": {
+        "size": 94.0,
+        "medical_relevance": 50,
+        "architecture": 100,
+        "quantization": 100,
+        "context": 100,
+        "overall": 83.5
+      },
+      "performance_estimates": {
+        "inference_time_ms": 13500.0,
+        "memory_mb": 360.0,
+        "quantized_inference_time_ms": 8100.0,
+        "quantized_memory_mb": 90.0,
+        "meets_constraints": false
+      },
+      "clinical_assessment": {
+        "medical_knowledge": "Low",
+        "structured_output": "High",
+        "reasoning_capability": "Medium",
+        "safety_features": "Requires implementation",
+        "deployment_readiness": "High"
+      },
+      "overall_score": 83.5
+    },
+    "distilbert-base": {
+      "specifications": {
+        "params": 66000000,
+        "architecture": "encoder-only",
+        "medical_pretrained": false,
+        "quantization_friendly": true,
+        "context_length": 512,
+        "pros": [
+          "Fast inference",
+          "Good for classification tasks",
+          "Distilled from BERT with minimal performance loss"
+        ],
+        "cons": [
+          "Encoder-only, needs additional decoder for generation",
+          "Limited generation capabilities"
+        ]
+      },
+      "scores": {
+        "size": 93.39999999999999,
+        "medical_relevance": 50,
+        "architecture": 40,
+        "quantization": 100,
+        "context": 100,
+        "overall": 71.35
+      },
+      "performance_estimates": {
+        "inference_time_ms": 6930.0,
+        "memory_mb": 396.0,
+        "quantized_inference_time_ms": 4158.0,
+        "quantized_memory_mb": 99.0,
+        "meets_constraints": false
+      },
+      "clinical_assessment": {
+        "medical_knowledge": "Low",
+        "structured_output": "Medium",
+        "reasoning_capability": "Medium",
+        "safety_features": "Requires implementation",
+        "deployment_readiness": "High"
+      },
+      "overall_score": 71.35
+    },
+    "biobert-base": {
+      "specifications": {
+        "params": 110000000,
+        "architecture": "encoder-only",
+        "medical_pretrained": true,
+        "quantization_friendly": true,
+        "context_length": 512,
+        "pros": [
+          "Pre-trained on biomedical literature",
+          "Better medical term understanding",
+          "Good for medical NER and classification"
+        ],
+        "cons": [
+          "Larger than other options",
+          "Encoder-only architecture",
+          "May need custom generation head"
+        ]
+      },
+      "scores": {
+        "size": 89.0,
+        "medical_relevance": 100,
+        "architecture": 40,
+        "quantization": 100,
+        "context": 100,
+        "overall": 85.25
+      },
+      "performance_estimates": {
+        "inference_time_ms": 11550.0,
+        "memory_mb": 660.0,
+        "quantized_inference_time_ms": 6930.0,
+        "quantized_memory_mb": 165.0,
+        "meets_constraints": false
+      },
+      "clinical_assessment": {
+        "medical_knowledge": "High",
+        "structured_output": "Medium",
+        "reasoning_capability": "Medium-High",
+        "safety_features": "Requires implementation",
+        "deployment_readiness": "Medium"
+      },
+      "overall_score": 85.25
+    },
+    "gpt2-small": {
+      "specifications": {
+        "params": 124000000,
+        "architecture": "decoder-only",
+        "medical_pretrained": false,
+        "quantization_friendly": true,
+        "context_length": 1024,
+        "pros": [
+          "Strong text generation capabilities",
+          "Autoregressive generation",
+          "Good for conversational responses"
+        ],
+        "cons": [
+          "No medical pre-training",
+          "May generate less structured responses"
+        ]
+      },
+      "scores": {
+        "size": 87.6,
+        "medical_relevance": 50,
+        "architecture": 80,
+        "quantization": 100,
+        "context": 100,
+        "overall": 77.9
+      },
+      "performance_estimates": {
+        "inference_time_ms": 18600.0,
+        "memory_mb": 744.0,
+        "quantized_inference_time_ms": 11160.0,
+        "quantized_memory_mb": 186.0,
+        "meets_constraints": false
+      },
+      "clinical_assessment": {
+        "medical_knowledge": "Low",
+        "structured_output": "Medium",
+        "reasoning_capability": "Medium",
+        "safety_features": "Requires implementation",
+        "deployment_readiness": "Medium"
+      },
+      "overall_score": 77.9
+    },
+    "clinical-t5-small": {
+      "specifications": {
+        "params": 60000000,
+        "architecture": "encoder-decoder",
+        "medical_pretrained": true,
+        "quantization_friendly": true,
+        "context_length": 512,
+        "pros": [
+          "Medical domain pre-training",
+          "T5 architecture benefits",
+          "Good for clinical text generation"
+        ],
+        "cons": [
+          "May not exist publicly",
+          "Would need custom training"
+        ]
+      },
+      "scores": {
+        "size": 94.0,
+        "medical_relevance": 100,
+        "architecture": 100,
+        "quantization": 100,
+        "context": 100,
+        "overall": 98.5
+      },
+      "performance_estimates": {
+        "inference_time_ms": 13500.0,
+        "memory_mb": 360.0,
+        "quantized_inference_time_ms": 8100.0,
+        "quantized_memory_mb": 90.0,
+        "meets_constraints": false
+      },
+      "clinical_assessment": {
+        "medical_knowledge": "High",
+        "structured_output": "High",
+        "reasoning_capability": "Medium-High",
+        "safety_features": "Requires implementation",
+        "deployment_readiness": "High"
+      },
+      "overall_score": 98.5
+    },
+    "custom-lightweight": {
+      "specifications": {
+        "params": 50000000,
+        "architecture": "encoder-decoder",
+        "medical_pretrained": false,
+        "quantization_friendly": true,
+        "context_length": 512,
+        "pros": [
+          "Designed specifically for this task",
+          "Optimized for edge deployment",
+          "Can incorporate clinical reasoning layers"
+        ],
+        "cons": [
+          "Requires development from scratch",
+          "No pre-training benefits",
+          "Higher development time"
+        ]
+      },
+      "scores": {
+        "size": 95.0,
+        "medical_relevance": 50,
+        "architecture": 100,
+        "quantization": 100,
+        "context": 100,
+        "overall": 83.75
+      },
+      "performance_estimates": {
+        "inference_time_ms": 11250.0,
+        "memory_mb": 300.0,
+        "quantized_inference_time_ms": 6750.0,
+        "quantized_memory_mb": 75.0,
+        "meets_constraints": false
+      },
+      "clinical_assessment": {
+        "medical_knowledge": "Low",
+        "structured_output": "High",
+        "reasoning_capability": "Medium",
+        "safety_features": "Can be built-in",
+        "deployment_readiness": "Low (requires development)"
+      },
+      "overall_score": 83.75
+    }
+  },
+  "ranked_models": [
+    [
+      "clinical-t5-small",
+      98.5
+    ],
+    [
+      "biobert-base",
+      85.25
+    ],
+    [
+      "custom-lightweight",
+      83.75
+    ],
+    [
+      "t5-small",
+      83.5
+    ],
+    [
+      "gpt2-small",
+      77.9
+    ],
+    [
+      "distilbert-base",
+      71.35
+    ]
+  ],
+  "recommendations": {
+    "primary_recommendation": "clinical-t5-small",
+    "alternative_options": [
+      "biobert-base",
+      "custom-lightweight"
+    ],
+    "implementation_strategy": [
+      "Source or create medical T5 variant",
+      "Fine-tune on Kenyan clinical data",
+      "Implement structured output formatting",
+      "Add clinical reasoning chains",
+      "Optimize for edge deployment"
+    ],
+    "risk_mitigation": [
+      "Implement clinical validation at every step",
+      "Use ensemble methods for critical decisions",
+      "Add confidence scoring to outputs",
+      "Create fallback mechanisms for edge cases",
+      "Continuous monitoring of model outputs"
+    ],
+    "optimization_plan": [
+      "Apply INT8 quantization as baseline",
+      "Test INT4 quantization impact on accuracy",
+      "Implement dynamic quantization for layers",
+      "Use ONNX Runtime for inference",
+      "Profile and optimize bottlenecks",
+      "Consider model pruning if needed"
+    ]
+  }
+}
