@@ -187,9 +187,13 @@ def evaluate_final_model(model_path: str, val_dataset: ClinicalDataset, config: 
             generated_ids = model.model.generate(
                 input_ids=batch['input_ids'],
                 attention_mask=batch['attention_mask'],
-                max_length=config.data.max_response_length,
+                max_new_tokens=200,  # Generate up to 200 new tokens
+                min_length=20,       # Minimum response length
                 num_beams=4,
-                early_stopping=True
+                early_stopping=True,
+                do_sample=False,
+                repetition_penalty=1.2,
+                length_penalty=1.0
             )
             
             inference_time = (time.time() - start_time) / len(batch['input_ids'])
@@ -199,8 +203,11 @@ def evaluate_final_model(model_path: str, val_dataset: ClinicalDataset, config: 
             predictions = model.tokenizer.batch_decode(
                 generated_ids, skip_special_tokens=True
             )
+            # Fix reference decoding - handle -100 labels properly
+            labels_for_decode = batch['labels'].clone()
+            labels_for_decode[labels_for_decode == -100] = model.tokenizer.pad_token_id
             references = model.tokenizer.batch_decode(
-                batch['labels'], skip_special_tokens=True
+                labels_for_decode, skip_special_tokens=True
             )
             
             all_predictions.extend(predictions)
