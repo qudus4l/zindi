@@ -187,13 +187,13 @@ def evaluate_final_model(model_path: str, val_dataset: ClinicalDataset, config: 
             generated_ids = model.model.generate(
                 input_ids=batch['input_ids'],
                 attention_mask=batch['attention_mask'],
-                max_new_tokens=200,  # Generate up to 200 new tokens
-                min_length=20,       # Minimum response length
-                num_beams=4,
+                max_new_tokens=150,  # Reduced for speed
+                min_length=30,       # Higher minimum for quality
+                num_beams=2,         # Reduced for speed (major improvement)
                 early_stopping=True,
                 do_sample=False,
-                repetition_penalty=1.2,
-                length_penalty=1.0
+                repetition_penalty=1.3,  # Higher to avoid repetition
+                length_penalty=1.1       # Slight preference for longer responses
             )
             
             inference_time = (time.time() - start_time) / len(batch['input_ids'])

@@ -453,17 +453,17 @@ class ClinicalTrainer:
                 
                 total_loss += outputs.loss.item()
                 
-                # Generate predictions for ROUGE evaluation - CRITICAL FIX
+                # Generate predictions for ROUGE evaluation - OPTIMIZED
                 generated_ids = self.model.model.generate(
                     input_ids=batch['input_ids'],
                     attention_mask=batch['attention_mask'],
-                    max_new_tokens=200,  # Generate up to 200 new tokens
-                    min_length=20,       # Minimum response length
-                    num_beams=4,
+                    max_new_tokens=150,  # Reduced for speed
+                    min_length=30,       # Higher minimum for quality
+                    num_beams=2,         # Reduced for speed
                     early_stopping=True,
                     do_sample=False,     # Deterministic generation
-                    repetition_penalty=1.2,  # Avoid repetition
-                    length_penalty=1.0   # Encourage longer responses
+                    repetition_penalty=1.3,  # Higher to avoid repetition
+                    length_penalty=1.1   # Encourage longer responses
                 )
                 
                 # Decode predictions and references - CRITICAL FIX
