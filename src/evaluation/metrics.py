@@ -29,6 +29,138 @@ class ClinicalMetricsEvaluator:
             'medication', 'monitoring', 'referral', 'education',
             'counseling', 'follow-up', 'investigation', 'examination'
         }
+    
+    def evaluate_batch(self, predictions: List[str], references: List[str]) -> Dict[str, Any]:
+        """Evaluate a batch of predictions against references.
+        
+        Args:
+            predictions: List of predicted text responses
+            references: List of reference text responses
+            
+        Returns:
+            Dictionary containing evaluation metrics
+        """
+        # Calculate ROUGE scores
+        rouge_scores = self.calculate_rouge_scores(predictions, references)
+        
+        # Calculate clinical relevance metrics
+        clinical_metrics = self._calculate_clinical_metrics(predictions, references)
+        
+        # Combine all metrics
+        results = {
+            'rouge_scores': {
+                'rouge1': rouge_scores.rouge1,
+                'rouge2': rouge_scores.rouge2,
+                'rougeL': rouge_scores.rougeL
+            },
+            'clinical_metrics': clinical_metrics,
+            'summary': {
+                'rouge1_f1': rouge_scores.rouge1['f1'],
+                'rouge2_f1': rouge_scores.rouge2['f1'],
+                'rougeL_f1': rouge_scores.rougeL['f1'],
+                'clinical_relevance': clinical_metrics['clinical_relevance'],
+                'avg_response_length': clinical_metrics['avg_response_length']
+            }
+        }
+        
+        return results
+    
+    def format_results(self, results: Dict[str, Any]) -> str:
+        """Format evaluation results for display.
+        
+        Args:
+            results: Results dictionary from evaluate_batch
+            
+        Returns:
+            Formatted string representation of results
+        """
+        output = []
+        output.append("EVALUATION RESULTS")
+        output.append("-" * 50)
+        
+        # ROUGE scores
+        output.append("\nROUGE Scores:")
+        rouge_scores = results['rouge_scores']
+        for rouge_type in ['rouge1', 'rouge2', 'rougeL']:
+            scores = rouge_scores[rouge_type]
+            output.append(f"  {rouge_type.upper()}:")
+            output.append(f"    Precision: {scores['precision']:.4f}")
+            output.append(f"    Recall:    {scores['recall']:.4f}")
+            output.append(f"    F1:        {scores['f1']:.4f}")
+        
+        # Clinical metrics
+        output.append("\nClinical Metrics:")
+        clinical = results['clinical_metrics']
+        output.append(f"  Clinical Relevance: {clinical['clinical_relevance']:.4f}")
+        output.append(f"  Medical Keywords:   {clinical['medical_keyword_coverage']:.4f}")
+        output.append(f"  Avg Response Len:   {clinical['avg_response_length']:.1f} words")
+        output.append(f"  Response Variance:  {clinical['response_length_variance']:.1f}")
+        
+        # Summary
+        output.append("\nSummary:")
+        summary = results['summary']
+        output.append(f"  Primary Score (ROUGE-1 F1): {summary['rouge1_f1']:.4f}")
+        output.append(f"  Clinical Relevance:          {summary['clinical_relevance']:.4f}")
+        
+        return "\n".join(output)
+    
+    def _calculate_clinical_metrics(self, predictions: List[str], 
+                                  references: List[str]) -> Dict[str, float]:
+        """Calculate clinical-specific metrics.
+        
+        Args:
+            predictions: List of predicted responses
+            references: List of reference responses
+            
+        Returns:
+            Dictionary of clinical metrics
+        """
+        # Calculate medical keyword coverage
+        pred_keyword_scores = []
+        ref_keyword_scores = []
+        
+        for pred, ref in zip(predictions, references):
+            pred_keywords = self._count_medical_keywords(pred)
+            ref_keywords = self._count_medical_keywords(ref)
+            
+            pred_keyword_scores.append(pred_keywords)
+            ref_keyword_scores.append(ref_keywords)
+        
+        # Calculate response length statistics
+        pred_lengths = [len(pred.split()) for pred in predictions]
+        ref_lengths = [len(ref.split()) for ref in references]
+        
+        # Clinical relevance score (combination of keyword coverage and length similarity)
+        clinical_relevance_scores = []
+        for i in range(len(predictions)):
+            keyword_sim = min(pred_keyword_scores[i], ref_keyword_scores[i]) / max(ref_keyword_scores[i], 1)
+            length_sim = 1 - abs(pred_lengths[i] - ref_lengths[i]) / max(ref_lengths[i], 1)
+            clinical_relevance = (keyword_sim + length_sim) / 2
+            clinical_relevance_scores.append(clinical_relevance)
+        
+        return {
+            'clinical_relevance': np.mean(clinical_relevance_scores),
+            'medical_keyword_coverage': np.mean(pred_keyword_scores) / max(np.mean(ref_keyword_scores), 1),
+            'avg_response_length': np.mean(pred_lengths),
+            'response_length_variance': np.var(pred_lengths),
+            'length_similarity': 1 - np.mean([abs(p - r) / max(r, 1) for p, r in zip(pred_lengths, ref_lengths)])
+        }
+    
+    def _count_medical_keywords(self, text: str) -> int:
+        """Count medical keywords in text.
+        
+        Args:
+            text: Input text to analyze
+            
+        Returns:
+            Number of medical keywords found
+        """
+        text_lower = text.lower()
+        count = 0
+        for keyword in self.medical_keywords:
+            if keyword in text_lower:
+                count += 1
+        return count
         
     def calculate_rouge_scores(self, predictions: List[str], 
                              references: List[str]) -> RougeScores:
