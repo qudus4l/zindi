@@ -53,13 +53,7 @@ ehthumbs_vista.db
 [Dd]esktop.ini
 
 # Data files (too large for git)
-data/raw/*.csv
-!data/raw/.gitkeep
-data/processed/*.csv
-data/processed/*.json
-!data/processed/.gitkeep
-data/augmented/*.csv
-!data/augmented/.gitkeep
+
 
 # Model files
 *.pt

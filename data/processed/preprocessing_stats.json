@@ -1,0 +1,31 @@
+{
+  "train": {
+    "samples": 320,
+    "validation": {
+      "total_samples": 320,
+      "empty_prompts": 0,
+      "empty_responses": 0,
+      "avg_prompt_length": 113.20625,
+      "avg_response_length": 110.1625,
+      "samples_with_metadata": 237,
+      "issues": [],
+      "total_issues": 0
+    }
+  },
+  "validation": {
+    "samples": 80,
+    "validation": {
+      "total_samples": 80,
+      "empty_prompts": 0,
+      "empty_responses": 0,
+      "avg_prompt_length": 107.6625,
+      "avg_response_length": 112.575,
+      "samples_with_metadata": 63,
+      "issues": [],
+      "total_issues": 0
+    }
+  },
+  "test": {
+    "samples": 100
+  }
+}
