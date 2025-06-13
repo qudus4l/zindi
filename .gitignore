@@ -69,7 +69,6 @@ data/augmented/*.csv
 *.h5
 *.keras
 *.safetensors
-models/
 checkpoints/
 
 # Logs
