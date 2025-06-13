@@ -7,7 +7,16 @@ monitoring and performance optimization.
 
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from pathlib import Path
+
+# Add the project root to Python path
+script_dir = Path(__file__).resolve().parent
+project_root = script_dir.parent
+project_root_str = str(project_root)
+
+if project_root_str not in sys.path:
+    sys.path.insert(0, project_root_str)
+    print(f"Added {project_root_str} to Python path")
 
 import torch
 import logging
