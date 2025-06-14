@@ -65,7 +65,7 @@ def prepare_optimized_datasets(model):
     
     return train_dataset, val_dataset
 
-def train_optimized_model(epochs=30, batch_size=4):
+def train_optimized_model(epochs=50, batch_size=16):
     """Train model with optimized parameters."""
     logger.info("Starting optimized training")
     
@@ -78,13 +78,14 @@ def train_optimized_model(epochs=30, batch_size=4):
     # Create optimized config
     config = Config()
     
-    # Optimize training parameters
+    # Optimize training parameters for RTX 4090
     config.training.num_epochs = epochs
     config.training.batch_size = batch_size
-    config.training.learning_rate = 3e-5  # Slightly lower for stability
-    config.training.warmup_steps = 100    # Reduced warmup
-    config.training.early_stopping_patience = 5  # More patience
-    config.training.gradient_clip_norm = 0.5     # Tighter clipping
+    config.training.learning_rate = 5e-5  # Higher LR for larger batch size
+    config.training.warmup_steps = 200    # More warmup for larger batches
+    config.training.early_stopping_patience = 8  # More patience for longer training
+    config.training.gradient_clip_norm = 1.0     # Standard clipping
+    config.training.use_mixed_precision = True   # Enable for RTX 4090
     
     # Setup trainer
     trainer = ClinicalTrainer(model, config)
@@ -111,7 +112,7 @@ def evaluate_optimized_model(model, val_dataset):
     import time
     from torch.utils.data import DataLoader
     
-    val_loader = DataLoader(val_dataset, batch_size=4, shuffle=False)
+    val_loader = DataLoader(val_dataset, batch_size=16, shuffle=False)
     
     with torch.no_grad():
         for batch in val_loader:
@@ -171,8 +172,8 @@ def evaluate_optimized_model(model, val_dataset):
 def main():
     """Main optimized training function."""
     parser = argparse.ArgumentParser(description="Train optimized clinical model")
-    parser.add_argument('--epochs', type=int, default=30, help='Number of epochs')
-    parser.add_argument('--batch-size', type=int, default=4, help='Batch size')
+    parser.add_argument('--epochs', type=int, default=50, help='Number of epochs')
+    parser.add_argument('--batch-size', type=int, default=16, help='Batch size')
     parser.add_argument('--eval-only', action='store_true', help='Only evaluate existing model')
     
     args = parser.parse_args()
