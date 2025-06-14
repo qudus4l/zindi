@@ -68,8 +68,16 @@ class ClinicalDataset(Dataset):
         """
         sample = self.data[idx]
         
-        # Prepare input text with clear task instruction for T5
-        input_text = f"Clinical case: {sample['prompt']} Provide clinical response:"
+        # CRITICAL FIX: Proper T5 task formatting
+        # Extract the actual case from the prompt (remove context info)
+        prompt_parts = sample['prompt'].split('case:')
+        if len(prompt_parts) > 1:
+            case_description = prompt_parts[1].strip()
+        else:
+            case_description = sample['prompt']
+        
+        # Format as a clear T5 task
+        input_text = f"summarize clinical case and provide management: {case_description}"
         target_text = sample['response']
         
         # Tokenize inputs

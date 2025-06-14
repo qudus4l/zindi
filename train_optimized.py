@@ -116,6 +116,10 @@ def evaluate_optimized_model(model, val_dataset):
     
     with torch.no_grad():
         for batch in val_loader:
+            # Move batch to device - CRITICAL FIX
+            batch = {k: v.to(model.model.device) if isinstance(v, torch.Tensor) else v 
+                    for k, v in batch.items()}
+            
             # Generate predictions
             start_time = time.time()
             
