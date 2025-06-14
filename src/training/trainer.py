@@ -230,7 +230,7 @@ class ClinicalTrainer:
         self.best_rouge_score = 0.0
         self.best_model_path = None
         
-    def setup_optimization(self):
+    def setup_optimization(self, steps_per_epoch: Optional[int] = None):
         """Setup optimizer and scheduler."""
         # Get trainable parameters
         trainable_params = [p for p in self.model.parameters() if p.requires_grad]
@@ -242,18 +242,22 @@ class ClinicalTrainer:
             weight_decay=0.01
         )
         
-        # Setup scheduler (linear warmup and decay)
-        total_steps = self.config.training.num_epochs * self.steps_per_epoch
-        warmup_steps = self.config.training.warmup_steps
-        
-        def lr_lambda(step):
-            if step < warmup_steps:
-                return float(step) / float(max(1, warmup_steps))
-            return max(0.0, float(total_steps - step) / float(max(1, total_steps - warmup_steps)))
-        
-        self.scheduler = torch.optim.lr_scheduler.LambdaLR(self.optimizer, lr_lambda)
-        
-        logger.info(f"Optimizer setup complete. Total steps: {total_steps}, Warmup: {warmup_steps}")
+        # Setup scheduler only if we have steps_per_epoch
+        if steps_per_epoch is not None:
+            self.steps_per_epoch = steps_per_epoch
+            total_steps = self.config.training.num_epochs * self.steps_per_epoch
+            warmup_steps = self.config.training.warmup_steps
+            
+            def lr_lambda(step):
+                if step < warmup_steps:
+                    return float(step) / float(max(1, warmup_steps))
+                return max(0.0, float(total_steps - step) / float(max(1, total_steps - warmup_steps)))
+            
+            self.scheduler = torch.optim.lr_scheduler.LambdaLR(self.optimizer, lr_lambda)
+            logger.info(f"Optimizer setup complete. Total steps: {total_steps}, Warmup: {warmup_steps}")
+        else:
+            self.scheduler = None
+            logger.info("Optimizer setup complete. Scheduler will be set up during training.")
     
     def train(self, train_dataset: Dataset, val_dataset: Dataset, 
               num_epochs: Optional[int] = None) -> Dict[str, Any]:
@@ -293,9 +297,8 @@ class ClinicalTrainer:
             pin_memory=device_config['pin_memory']
         )
         
-        # Setup optimization
-        self.steps_per_epoch = len(train_loader)
-        self.setup_optimization()
+        # Setup optimization with steps per epoch
+        self.setup_optimization(steps_per_epoch=len(train_loader))
         
         # Training loop
         logger.info(f"Starting training for {num_epochs} epochs on {self.device}")
