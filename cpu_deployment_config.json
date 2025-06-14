@@ -1,0 +1,22 @@
+{
+  "model_config": {
+    "model_name": "t5-small",
+    "device": "cpu",
+    "torch_threads": 1,
+    "enable_cache": true
+  },
+  "generation_config": {
+    "max_new_tokens": 20,
+    "num_beams": 1,
+    "min_length": 3,
+    "do_sample": false,
+    "repetition_penalty": 2.5,
+    "use_cache": true
+  },
+  "optimization_flags": {
+    "torch_set_num_threads": 1,
+    "torch_set_num_interop_threads": 1,
+    "disable_gradients": true,
+    "model_eval_mode": true
+  }
+}
